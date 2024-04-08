@@ -162,13 +162,12 @@ import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from '@/components/empty'
-// import { useProModal } from "@/hooks/use-pro-modal";
-
+import { useProModel } from '../../../../../hooks/use-pro-model'
 import { formSchema } from "./constants";
 
 const CodePage = () => {
   const router = useRouter();
-  // const proModal = useProModal();
+  const proModal = useProModel();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({

@@ -14,12 +14,13 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { Empty } from '@/components/empty'
 import { Loader } from '@/components/loader'
-import { cn } from '@/lib/utils'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardFooter } from '@/components/ui/card'
 import Image from 'next/image'
+import { useProModel } from '../../../../../hooks/use-pro-model'
 
 const ImagePage = () => {
+  const proModal = useProModel()
   const router = useRouter()
   const [images, setImages ] = useState<string[]>([])
 
@@ -44,7 +45,9 @@ const ImagePage = () => {
       setImages(urls)
       form.reset()
     } catch (error:any) {
-      console.log(error);
+      if(error?.response?.status === 403) {
+        proModal.onOpen()
+      }
     } finally {
       router.refresh()
     }
