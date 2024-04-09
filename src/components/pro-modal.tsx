@@ -1,5 +1,6 @@
 'use client'
 
+import axios from "axios";
 import { cn } from "@/lib/utils";
 import { useProModel } from "../../hooks/use-pro-model"
 import { Badge } from "./ui/badge"
@@ -7,6 +8,9 @@ import { Card } from "./ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog"
 import {  Check, Code, ImageIcon, MessagesSquare, Music, VideoIcon, Zap } from "lucide-react";
 import { Button } from "./ui/button";
+import { useState } from "react";
+import { set } from "zod";
+import toast from "react-hot-toast";
 
 
 const tools = [
@@ -49,6 +53,19 @@ const tools = [
 
 export const ProModal = () => {
   const proModal = useProModel()
+  const [loading, setLoading] = useState(false)
+  const onSubscribe = async () => {
+    try {
+      setLoading(true)
+      const response = await axios.get('/api/stripe')
+      window.location.href = response.data.url
+    } catch (error) {
+      toast.error('Something went wrong!')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
       <DialogContent>
@@ -82,6 +99,8 @@ export const ProModal = () => {
         </DialogHeader>
         <DialogFooter>
           <Button
+            disabled={loading}
+            onClick={onSubscribe}
             size='lg'
             variant='premium'
             className="w-full "

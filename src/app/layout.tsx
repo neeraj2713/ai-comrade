@@ -4,6 +4,8 @@ import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs'
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModalProvider } from "@/components/model-provider";
+import { ToasterProvider } from "@/components/toaster-provider";
+import { CrispProvider } from "@/components/crisp-provider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,6 +24,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <head />
+        <CrispProvider/>
         <body>
           <ThemeProvider
             attribute="class"
@@ -30,6 +33,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ModalProvider/>
+            <ToasterProvider/>
             {children}
           </ThemeProvider>
         </body>
